@@ -7,8 +7,7 @@
 (def system nil)
 
 (defn init []
-  (binding [*out* *err*] (println "Warning: No system initializer function defined."))
-  :ok)
+  (throw (Error. "No system initializer function found.")))
 
 (defn set-init! [init]
   (alter-var-root #'init (fn [_] (fn [] (alter-var-root #'system (fn [_] (init))) :ok))))
