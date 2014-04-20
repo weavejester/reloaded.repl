@@ -8,11 +8,12 @@ your user.clj file for each project. It'll also ensure you don't lose
 your `reset` function every time your source code has a compilation
 error.
 
-Your application must use the [Component][2] library for these REPL
-functions to work.
+Your application must use the [Component][2] library, and provide
+[idempotent][3] start and stop functions for your system.
 
 [1]: http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded
 [2]: https://github.com/stuartsierra/component
+[3]: https://en.wikipedia.org/wiki/Idempotence
 
 ## Install
 
