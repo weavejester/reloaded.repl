@@ -31,6 +31,10 @@
   (init)
   (start))
 
+(defn clear []
+  (alter-var-root #'system #(do (stop-system %) nil))
+  :ok)
+
 (defn reset []
-  (stop)
+  (clear)
   (refresh :after 'reloaded.repl/go))
