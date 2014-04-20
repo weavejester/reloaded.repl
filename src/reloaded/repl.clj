@@ -9,8 +9,14 @@
 (defn init []
   (throw (Error. "No system initializer function found.")))
 
+(defn- make-init [init]
+  (fn []
+    (stop)
+    (alter-var-root #'system (fn [_] (init)))
+    :ok))
+
 (defn set-init! [init]
-  (alter-var-root #'init (fn [_] (fn [] (alter-var-root #'system (fn [_] (init))) :ok))))
+  (alter-var-root #'init (fn [_] (make-init init))))
 
 (defn start []
   (alter-var-root #'system component/start)
