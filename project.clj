@@ -1,4 +1,4 @@
-(defproject reloaded.repl "0.1.0-SNAPSHOT"
+(defproject reloaded.repl "0.1.0"
   :description "REPL functions to support the reloaded workflow"
   :url "REPL functions to support the reloaded workflow"
   :license {:name "Eclipse Public License"
