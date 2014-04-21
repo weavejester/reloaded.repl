@@ -3,10 +3,10 @@
 A Clojure library that implements the user functions of Stuart
 Sierra's [reloaded workflow][1].
 
-This library will having to write out the same reloaded functions in
-your user.clj file for each project. It'll also ensure you don't lose
-your `reset` function every time your source code has a compilation
-error.
+This library will save you from having to write out the same reloaded
+functions in your user.clj file for each project. It'll also ensure
+you don't lose your `reset` function every time your source code has a
+compilation error.
 
 Your application must use the [Component][2] library, and provide
 [idempotent][3] start and stop functions for your system.
