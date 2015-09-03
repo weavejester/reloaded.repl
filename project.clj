@@ -1,4 +1,4 @@
-(defproject reloaded.repl "0.1.0"
+(defproject reloaded.repl "0.1.1"
   :description "REPL functions to support the reloaded workflow"
   :url "https://github.com/weavejester/reloaded.repl"
   :license {:name "Eclipse Public License"
