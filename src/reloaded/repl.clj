@@ -1,6 +1,6 @@
 (ns reloaded.repl
   (:require [com.stuartsierra.component :as component]
-            [clojure.tools.namespace.repl :refer [disable-reload! refresh]]
+            [clojure.tools.namespace.repl :refer [disable-reload! refresh refresh-all]]
             [suspendable.core :as suspendable]))
 
 (disable-reload!)
@@ -51,3 +51,7 @@
 (defn reset []
   (suspend)
   (refresh :after 'reloaded.repl/resume))
+
+(defn reset-all []
+  (suspend)
+  (refresh-all :after 'reloaded.repl/resume))
