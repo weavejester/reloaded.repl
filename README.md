@@ -19,7 +19,7 @@ Your application must use the [Component][2] library, and provide
 
 Add the following dependency to your dev profile:
 
-    [reloaded.repl "0.2.0"]
+    [reloaded.repl "0.2.1"]
 
 ## Usage
 
