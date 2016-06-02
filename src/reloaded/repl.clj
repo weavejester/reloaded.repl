@@ -7,7 +7,7 @@
 
 (def system nil)
 
-(def ^:private initializer nil)
+(def initializer nil)
 
 (defn set-init! [init]
   (alter-var-root #'initializer (constantly init)))
