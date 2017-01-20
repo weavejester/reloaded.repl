@@ -1,6 +1,6 @@
 (ns reloaded.repl
   (:require [com.stuartsierra.component :as component]
-            [clojure.tools.namespace.repl :refer [disable-reload! refresh refresh-all]]
+            [clojure.tools.namespace.repl :refer [disable-reload! refresh refresh-all set-refresh-dirs]]
             [suspendable.core :as suspendable]))
 
 (disable-reload!)
@@ -8,6 +8,13 @@
 (def system nil)
 
 (def initializer nil)
+
+(try
+  (require 'boot.core)
+  (let [get-env (ns-resolve (symbol "boot.core") (symbol "get-env"))
+        dirs (get-env :directories)]
+    (apply set-refresh-dirs dirs))
+  (catch Throwable _))
 
 (defn set-init! [init]
   (alter-var-root #'initializer (constantly init)))
