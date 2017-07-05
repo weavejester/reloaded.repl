@@ -1,5 +1,6 @@
 (ns reloaded.repl
   (:require [com.stuartsierra.component :as component]
+            [clojure.stacktrace :refer [print-cause-trace]]
             [clojure.tools.namespace.repl :refer [disable-reload! refresh refresh-all]]
             [suspendable.core :as suspendable]))
 
@@ -24,8 +25,20 @@
     (throw (init-error))))
 
 (defn start []
-  (alter-var-root #'system component/start)
-  :started)
+  (try
+    (alter-var-root #'system component/start)
+    :started
+    (catch Exception e
+      (println "Error whilst starting the system:")
+      (print-cause-trace e)
+      (println "Attempting to stop the failed system")
+      (try
+        (component/stop (:system (ex-data e)))
+        :failed-with-recovery
+        (catch Exception e
+          (println "Error ocurred whilst stopping!")
+          (print-cause-trace e)
+          :failed-without-recovery)))))
 
 (defn stop []
   (alter-var-root #'system stop-system)
@@ -45,7 +58,20 @@
 
 (defn resume []
   (if-let [init initializer]
-    (do (alter-var-root #'system #(suspendable/resume (init) %)) :resumed)
+    (try
+      (alter-var-root #'system #(suspendable/resume (init) %))
+      :resumed
+      (catch Exception e
+        (println "Error whilst resuming the system:")
+        (print-cause-trace e)
+        (println "Attempting to suspend the failed system")
+        (try
+          (suspendable/suspend (:system (ex-data e)))
+          :failed-with-recovery
+          (catch Exception e
+            (println "Error ocurred whilst suspending!")
+            (print-cause-trace e)
+            :failed-without-recovery))))
     (throw (init-error))))
 
 (defn reset []
