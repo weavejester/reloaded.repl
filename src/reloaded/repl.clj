@@ -23,7 +23,7 @@
     (do (alter-var-root #'system #(do (stop-system %) (init))) :ok)
     (throw (init-error))))
 
-(defn try-start-system [start-fn system]
+(defn- try-start-system [start-fn system]
   (try
     (start-fn system)
     (catch Throwable start-ex
