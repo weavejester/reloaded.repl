@@ -23,8 +23,20 @@
     (do (alter-var-root #'system #(do (stop-system %) (init))) :ok)
     (throw (init-error))))
 
+(defn try-start-system [start-fn system]
+  (try
+    (start-fn system)
+    (catch Throwable start-ex
+      (try
+        (component/stop (:system (ex-data start-ex)))
+        (catch Throwable stop-ex
+          (throw (ex-info "System failed during start, also failed to stop failed system"
+                          {:start-exception start-ex}
+                          stop-ex))))
+      (throw start-ex))))
+
 (defn start []
-  (alter-var-root #'system component/start)
+  (alter-var-root #'system #(try-start-system component/start %))
   :started)
 
 (defn stop []
@@ -45,7 +57,11 @@
 
 (defn resume []
   (if-let [init initializer]
-    (do (alter-var-root #'system #(suspendable/resume (init) %)) :resumed)
+    (do (alter-var-root #'system
+                        (fn [system]
+                          (try-start-system #(suspendable/resume (init) %)
+                                            system)))
+        :resumed)
     (throw (init-error))))
 
 (defn reset []
