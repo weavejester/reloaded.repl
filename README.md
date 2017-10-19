@@ -21,6 +21,12 @@ Add the following dependency to your dev profile:
 
     [reloaded.repl "0.2.4"]
 
+boot uses additionally need one more dependency:
+
+    [boot/core "x.y.z"]
+
+were "x.y.z" is the boot version.
+
 ## Usage
 
 Require the `reloaded.repl` namespace in your user.clj file, and use
