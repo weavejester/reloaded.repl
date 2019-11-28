@@ -31,8 +31,9 @@
         (component/stop (:system (ex-data start-ex)))
         (catch Throwable stop-ex
           (throw (ex-info "System failed during start, also failed to stop failed system"
-                          {:start-exception start-ex}
-                          stop-ex))))
+                          {:start-exception start-ex
+                           :stop-ex stop-ex}
+                          start-ex))))
       (throw start-ex))))
 
 (defn start []
